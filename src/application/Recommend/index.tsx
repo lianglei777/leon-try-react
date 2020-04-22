@@ -1,7 +1,7 @@
 
 import React from 'react';
-import Slider from '../../components/slider';
-import RecommendList from '../../components/list';
+import Slider from '@/components/slider';
+import RecommendList from '@/components/list';
 
 function Recommend () {
 

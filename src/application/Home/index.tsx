@@ -6,8 +6,6 @@ import { NavLink} from 'react-router-dom';
 function Home (props: any) {
   const { route } = props;
 
-  console.log('route 1-->', JSON.stringify(route));
-  console.log('route 2-->', JSON.stringify(route.routes));
 
   return (
     <div>
