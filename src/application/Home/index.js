@@ -3,7 +3,7 @@ import { renderRoutes } from "react-router-config";
 import { Top, Tab, TabItem } from './style';
 import { NavLink} from 'react-router-dom';
 
-function Home (props: any) {
+function Home (props) {
   const { route } = props;
 
 
