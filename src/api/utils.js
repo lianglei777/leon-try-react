@@ -1,3 +1,4 @@
+// 数字转计数单位写法
 export const getCount = (count) => {
     if (count < 0) return;
     if (count < 10000) {

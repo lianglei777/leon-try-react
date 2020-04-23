@@ -14,6 +14,7 @@
     "@types/react-router-config": "^5.0.1",
     "@types/react-router-dom": "^5.1.4",
     "@types/styled-components": "^5.1.0",
+    "axios": "^0.19.2",
     "better-scroll": "^2.0.0-beta.6",
     "customize-cra": "^0.9.1",
     "immutable": "^4.0.0-rc.12",
