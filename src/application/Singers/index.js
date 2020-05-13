@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {connect} from 'react-redux';
 import Horizen from '../../baseUI/horizen-item';
 import { categoryTypes, alphaTypes } from '../../api/config';
@@ -23,12 +23,18 @@ import {
 import Loading from '../../baseUI/loading';
 import  LazyLoad, {forceCheck} from 'react-lazyload';
 
+import { CHANGE_ALPHA, CHANGE_CATEGORY, CategoryDataContext } from './data';
+
+
 
 function Singers(props) {
 
 
-  let [category, setCategory] = useState ('');
-  let [alpha, setAlpha] = useState ('');
+  // let [category, setCategory] = useState ('');
+  // let [alpha, setAlpha] = useState ('');
+
+  const {data, dispatch} = useContext(CategoryDataContext);
+  const {category, alpha} = data.toJS();
 
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   const { getHotSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
@@ -38,14 +44,28 @@ function Singers(props) {
     // eslint-disable-next-line
   }, []);
 
+  useEffect (() => {
+    if (!singerList.size) {
+      getHotSingerDispatch ();
+    }
+  }, []);
+
   let handleUpdateAlpha = (val) => {
-    setAlpha (val);
+
+    // setAlpha (val);
+
+    dispatch({type: CHANGE_ALPHA, data: val});
     updateDispatch(category, val);
+
   }
 
   let handleUpdateCatetory = (val) => {
-    setCategory (val);
+
+    // setCategory (val);
+
+    dispatch({type: CHANGE_CATEGORY, data: val});
     updateDispatch(val, alpha);
+
   }
 
   const handlePullUp = () => {
@@ -56,13 +76,14 @@ function Singers(props) {
     pullDownRefreshDispatch(category, alpha);
   };
 
-  console.log('leon singerList-->', JSON.stringify(singerList));
+  // console.log('leon singerList-->', JSON.stringify(singerList));
 
   const renderSingerList = () => {
     return (
       <List>
         {
-          singerList.map((item, index) => {
+          singerList.toJS().map((item, index) => {
+
             return (
               <ListItem key={item.accountId + "" + index}>
                 <div className="img_wrapper">
@@ -73,14 +94,18 @@ function Singers(props) {
                 <span className="name">{item.name}</span>
               </ListItem>
             )
+
           })
+
         }
+
       </List>
     );
 
   };
 
 
+  console.log('leon enterLoading -->',enterLoading)
 
   return (
     <div>
@@ -106,6 +131,9 @@ function Singers(props) {
         >
           {renderSingerList()}
         </Scroll>
+
+        <Loading show={enterLoading}></Loading>
+
       </ListContainer>
     </div>
   );
