@@ -22,6 +22,7 @@ import {
 
 import Loading from '../../baseUI/loading';
 import  LazyLoad, {forceCheck} from 'react-lazyload';
+import { renderRoutes } from 'react-router-config';
 
 import { CHANGE_ALPHA, CHANGE_CATEGORY, CategoryDataContext } from './data';
 
@@ -78,6 +79,10 @@ function Singers(props) {
 
   // console.log('leon singerList-->', JSON.stringify(singerList));
 
+  const enterDetail = (id) => {
+    props.history.push(`/singers/${id}`);
+  }
+
   const renderSingerList = () => {
     return (
       <List>
@@ -85,7 +90,7 @@ function Singers(props) {
           singerList.toJS().map((item, index) => {
 
             return (
-              <ListItem key={item.accountId + "" + index}>
+              <ListItem key={item.accountId + "" + index} onClick={() => enterDetail(item.id)} >
                 <div className="img_wrapper">
                   <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png')} alt="music" />}>
                     <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
@@ -135,6 +140,7 @@ function Singers(props) {
         <Loading show={enterLoading}></Loading>
 
       </ListContainer>
+      { renderRoutes(props.route.routes) }
     </div>
   );
 }

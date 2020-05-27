@@ -1,11 +1,11 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
-
 import Home from '../application/Home';
 import Recommend from '../application/Recommend/index';
 import Singers from '../application/Singers';
 import Rank from '../application/Rank';
 import Album from '../application/Album';
+import Singer from '../application/Singer';
 
 export default [
   {
@@ -13,7 +13,7 @@ export default [
     component: Home,
     routes: [
       {
-        path: "/",
+        path: "/", 
         exact: true,
         render: () => (
           <Redirect to={"/recommend"}/>
@@ -31,13 +31,20 @@ export default [
       },
       {
         path: "/singers",
-        component: Singers
+        component: Singers,
+        key: "singers",
+        routes:[
+          {
+            path: "/singers/:id",
+            component: Singer
+          }
+        ]
       },
       {
         path: "/rank",
         component: Rank,
         key: "rank",
-        routes: [
+        routes:[
           {
             path: "/rank/:id",
             component: Album
