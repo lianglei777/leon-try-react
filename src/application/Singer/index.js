@@ -7,6 +7,7 @@ import Scroll from "../../baseUI/scroll/index";
 import SongsList from "../SongsList";
 import { HEADER_HEIGHT } from "./../../api/config";
 import { connect } from 'react-redux';
+import Loading from "./../../baseUI/loading/index";
 import { getSingerInfo, changeEnterLoading } from "./store/actionCreators";
 
 function Singer(props) {
@@ -126,6 +127,7 @@ function Singer(props) {
             ></SongsList>
           </Scroll>
         </SongListWrapper>
+        { loading ? (<Loading></Loading>) : null}
       </Container>
     </CSSTransition>
   )
