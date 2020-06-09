@@ -32,11 +32,10 @@ function Player (props) {
     let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
     //记录当前的歌曲，以便于下次重渲染时比对是否是一首歌
     const [preSong, setPreSong] = useState({});
+    const [modeText, setModeText] = useState("");
+    const [songReady, setSongReady] = useState(true);
 
     const audioRef = useRef();
-
-    const [modeText, setModeText] = useState("");
-
     const toastRef = useRef();
 
     //从props中取redux数据和dispatch方法
@@ -66,24 +65,28 @@ function Player (props) {
     const currentSong = immutableCurrentSong.toJS();
 
 
-    // useEffect(() => {
-    //     changeCurrentIndexDispatch(0);
-    // }, [])
-
     useEffect(() => {
         if (
             !playList.length ||
             currentIndex === -1 ||
             !playList[currentIndex] ||
-            playList[currentIndex].id === preSong.id
-        )
+            playList[currentIndex].id === preSong.id ||
+            !songReady
+        ){
             return;
+        }
+           
         let current = playList[currentIndex];
         changeCurrentDispatch(current);//赋值currentSong
         setPreSong(current);
+        setSongReady(false);
+        changeCurrentDispatch (current);// 赋值 currentSong
         audioRef.current.src = getSongUrl(current.id);
         setTimeout(() => {
-            audioRef.current.play();
+            // 注意，play 方法返回的是一个 promise 对象
+            audioRef.current.play().then(() => {
+                setSongReady(true);
+            });
         });
         togglePlayingDispatch(true);//播放状态
         setCurrentTime(0);//从头开始播放
@@ -175,6 +178,11 @@ function Player (props) {
           handleNext();
         }
       };
+    
+      const handleError = () => {
+        songReady.current = true;
+        alert ("播放出错");
+      };
 
     return (
         <div>
@@ -209,6 +217,7 @@ function Player (props) {
             ref={audioRef}
             onTimeUpdate={updateTime}
             onEnded={handleEnd}
+            onError={handleError}
           ></audio>
           <Toast text={modeText} ref={toastRef}></Toast>  
         </div>
