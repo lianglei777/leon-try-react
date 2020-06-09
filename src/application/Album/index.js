@@ -9,6 +9,8 @@ import { getName, isEmptyObject, getCount } from './../../api/utils';
 import style from "../../assets/global-style";
 import { getAlbumList, changeEnterLoading } from './store/actionCreators';
 import Loading from '../../baseUI/loading/index';
+import SongsList from '../SongsList';
+import MusicNote from "../../baseUI/music-note/index";
 
 export const HEADER_HEIGHT = 45;
 
@@ -25,6 +27,8 @@ function Album(props) {
 
   const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
   const { getAlbumDataDispatch } = props;
+
+  const musicNoteRef = useRef ();
 
   useEffect(() => {
     getAlbumDataDispatch(id);
@@ -54,6 +58,10 @@ function Album(props) {
       setIsMarquee(false);
     }
   }, []);
+
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation ({ x, y });
+  };
 
   const renderTopDesc = () => {
     return (
@@ -158,14 +166,22 @@ function Album(props) {
 
             <Scroll bounceTop={false} onScroll={handleScroll}>
               <div>
-              { renderTopDesc () }
-              { renderMenu () }
-              { renderSongList () }
+              { renderTopDesc()}
+              { renderMenu() }
+              {/* { renderSongList() } */}
+              <SongsList
+                  songs={currentAlbum.tracks}
+                  collectCount={currentAlbum.subscribedCount}
+                  showCollect={true}
+                  showBackground={true}
+                  musicAnimation={musicAnimation}
+                ></SongsList>
               </div>
             </Scroll>
           ) : null
         }
         { enterLoading ? <Loading></Loading> : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   )

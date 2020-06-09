@@ -1,4 +1,6 @@
 import React from 'react';
+import { changePlayList, changeCurrentIndex, changeSequecePlayList } from './../../application/Player/store/actionCreators';
+import { connect } from 'react-redux';
 import { SongList, SongItem } from "./style";
 import { getName } from '../../api/utils';
 
@@ -8,9 +10,21 @@ const SongsList = React.forwardRef((props, refs) => {
 
     const totalCount = songs.length;
 
+    const { changePlayListDispatch, changeCurrentIndexDispatch, changeSequecePlayListDispatch } = props;
+
+    // 接受触发动画的函数
+    const { musicAnimation } = props;
+
     const selectItem = (e, index) => {
-        console.log(index);
+        changePlayListDispatch(songs);
+        changeSequecePlayListDispatch(songs);
+        changeCurrentIndexDispatch(index);
+        musicAnimation(e.nativeEvent.clientX, e.nativeEvent.clientY);
     }
+
+    // const selectItem = (e, index) => {
+    //     console.log(index);
+    // }
 
     let songList = (list) => {
         let res = [];
@@ -58,4 +72,22 @@ const SongsList = React.forwardRef((props, refs) => {
     )
 });
 
-export default React.memo(SongsList);
+
+// 映射 dispatch 到 props 上
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changePlayListDispatch(data) {
+            dispatch(changePlayList(data));
+        },
+        changeCurrentIndexDispatch(data) {
+            dispatch(changeCurrentIndex(data));
+        },
+        changeSequecePlayListDispatch(data) {
+            dispatch(changeSequecePlayList(data))
+        }
+    }
+};
+
+
+// 将 ui 组件包装成容器组件
+export default connect(null, mapDispatchToProps)(React.memo(SongsList));
