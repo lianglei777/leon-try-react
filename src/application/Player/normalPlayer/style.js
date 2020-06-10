@@ -3,10 +3,10 @@ import style from "../../../assets/global-style";
 
 const rotate = keyframes`
   0%{
-    transform: rotate (0);
+    transform: rotate(0);
   }
   100%{
-    transform: rotate (360deg);
+    transform: rotate(360deg);
   }
 `;
 export const NormalPlayerContainer = styled.div`
@@ -18,27 +18,27 @@ export const NormalPlayerContainer = styled.div`
   z-index: 150;
   background: ${style["background-color"]};
   &.normal-enter,
-&.normal-exit-done {
-  .top {
-    transform: translate3d (0, -100px, 0);
+  &.normal-exit-done {
+    .top {
+      transform: translate3d(0, -100px, 0);
+    }
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
   }
-  .bottom {
-    transform: translate3d (0, 100px, 0);
+  &.normal-enter-active,
+  &.normal-exit-active {
+    .top,
+    .bottom {
+      transform: translate3d(0, 0, 0);
+      transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+    }
+    opacity: 1;
+    transition: all 0.4s;
   }
-}
-&.normal-enter-active,
-&.normal-exit-active {
-  .top,
-  .bottom {
-    transform: translate3d (0, 0, 0);
-    transition: all 0.4s cubic-bezier (0.86, 0.18, 0.82, 1.32);
+  &.normal-exit-active {
+    opacity: 0;
   }
-  opacity: 1;
-  transition: all 0.4s;
-}
-&.normal-exit-active {
-  opacity: 0;
-}
   .background {
     position: absolute;
     left: 0;
@@ -47,7 +47,7 @@ export const NormalPlayerContainer = styled.div`
     height: 100%;
     z-index: -1;
     opacity: 0.6;
-    filter: blur (20px);
+    filter: blur(20px);
     &.layer {
       background: ${style["font-color-desc"]};
       opacity: 0.3;
@@ -69,7 +69,7 @@ export const Top = styled.div`
       font-size: 24px;
       color: ${style["font-color-desc"]};
       font-weight: bold;
-      transform: rotate (90deg);
+      transform: rotate(90deg);
     }
   }
   .title {
@@ -119,7 +119,7 @@ export const CDWrapper = styled.div`
       height: 100%;
       box-sizing: border-box;
       border-radius: 50%;
-      border: 10px solid rgba (255, 255, 255, 0.1);
+      border: 10px solid rgba(255, 255, 255, 0.1);
     }
     .play {
       animation: ${rotate} 20s linear infinite;
@@ -134,7 +134,7 @@ export const CDWrapper = styled.div`
     line-height: 20px;
     white-space: normal;
     text-align: center;
-    color: rgba (255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
   }
 `;
 
@@ -196,5 +196,33 @@ export const Operators = styled.div`
   }
   .icon-favorite {
     color: ${style["theme-color"]};
+  }
+`;
+export const LyricContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
+export const LyricWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  p {
+    line-height: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: normal;
+    font-size: ${style["font-size-l"]};
+    &.current {
+      color: #fff;
+    }
+    &.pure{
+      position: relative;
+      top: 30vh;
+    }
   }
 `;

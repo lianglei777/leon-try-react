@@ -8,10 +8,13 @@ function MiniPlayer(props) {
 
     const miniPlayerRef = useRef();
 
-    const { song, fullScreen, playing, percent } = props;
+    const { song, fullScreen, playing, percent, togglePlayList } = props;
     const { toggleFullScreen, clickPlaying } = props;
 
-    // let percent = 0.2;
+    const handleTogglePlayList = (e) => {
+        togglePlayList (true);
+        e.stopPropagation ();
+      };
 
     return (
         <CSSTransition
@@ -49,7 +52,7 @@ function MiniPlayer(props) {
 
                 </div>
 
-                <div className="control">
+                <div className="control" onClick={handleTogglePlayList}>
                     <i className="iconfont">&#xe640;</i>
                 </div>
             </MiniPlayerContainer>
